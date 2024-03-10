@@ -1,10 +1,22 @@
 CC = gcc
-CFLAGS = -Wall
+CFLAGS = -Wall -Wextra
 
-.PHONY: clean
+.PHONY: clean all shell test
 
-all:
-	$(CC) $(CFLAGS) src/main.c
+all: shell
+
+shell: args.o
+	$(CC) $(CFLAGS) src/main.c src/args.o
+
+test: CFLAGS += -g3 -gdwarf-2 -DDEBUG
+test: args.o
+	$(CC) $(CFLAGS) -o test/test test/test_args.c src/args.o
+	./test/test
 
 clean:
 	rm a.out
+	rm src/*.o
+	rm test/test
+
+args.o: src/args.c src/args.h
+	$(CC) $(CFLAGS) -g -c src/args.c -o src/args.o
