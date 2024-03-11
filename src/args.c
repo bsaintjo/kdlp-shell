@@ -4,7 +4,7 @@
 
 #include "args.h"
 
-int parse_word(char *input, int size)
+int parse_word(const char *input, int size)
 {
     if (size == 0) {
         return -1;
@@ -31,13 +31,7 @@ int parse_word(char *input, int size)
     return size + 1;
 }
 
-// Copy up to n bytes from src into dst and always terminate string terminator
-void strcpy_safe(char *dst, char *src, size_t n)
-{
-    *(char *)memcpy(dst, src, n) = '\0';
-}
-
-char **parse_args(char *input)
+char **parse_args(const char *input)
 {
 
     char **args = (char **)malloc(sizeof(char *) * MAX_N_ARGS);
