@@ -5,9 +5,18 @@
 
 #define MAX_CMD_LEN 255
 #define MAX_N_ARGS 32
+typedef enum
+{
+    EXIT,
+    CHANGE_DIR,
+    EXECUTE,
+    CMD_ERROR,
+} Command;
 
+Command cmd(char **, int);
 int parse_word(const char *, int);
 char **parse_args(const char *);
+int parse_args2(const char *, char **);
 void free_args(char **);
 
 #endif

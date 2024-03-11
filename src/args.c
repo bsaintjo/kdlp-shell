@@ -4,9 +4,28 @@
 
 #include "args.h"
 
+Command cmd(char **args, int n_args) {
+    if (!strcmp(*args, "exit")) {
+        if (n_args == 0) {
+            return EXIT;
+        } else {
+            return CMD_ERROR;
+        }
+    } else if (!strcmp(*args, "cd")) {
+        if (n_args == 1) {
+            return CHANGE_DIR;
+        } else {
+            return CMD_ERROR;
+        }
+    } else {
+        return EXECUTE;
+    }
+}
+
 int parse_word(const char *input, int size)
 {
-    if (size == 0) {
+    if (size == 0)
+    {
         return -1;
     }
     for (int i = 0; i < size; i++)
@@ -17,9 +36,12 @@ int parse_word(const char *input, int size)
         }
         else if ((*input) == '\0')
         {
-            if (i == 0) {
+            if (i == 0)
+            {
                 return -1;
-            } else {
+            }
+            else
+            {
                 return i + 1;
             }
         }
@@ -29,6 +51,54 @@ int parse_word(const char *input, int size)
         }
     }
     return size + 1;
+}
+
+int parse_args2(const char *input, char **dst) {
+    if (dst == NULL)
+    {
+        return -1;
+    }
+
+    for (int i = 0; i < MAX_N_ARGS; i++)
+    {
+        dst[i] = NULL;
+    }
+
+    int n_args = 0;
+    for (int i = 0; i < MAX_N_ARGS; i++)
+    {
+        if ((*input == '\0') || !(strcmp(input, "")))
+        {
+            break;
+        }
+
+        int word_idx = parse_word(input, strlen(input));
+        if (word_idx == -1)
+        {
+            break;
+        }
+
+        char *arg = (char *)malloc(sizeof(char) * word_idx);
+        if (arg == NULL)
+        {
+            return -1;
+        }
+
+        strlcpy(arg, input, word_idx);
+        *dst = arg;
+        dst++;
+        if (word_idx > (int)strlen(input))
+        {
+            break;
+        }
+        else
+        {
+            input += word_idx;
+        }
+        n_args += 1;
+    }
+
+    return n_args;
 }
 
 char **parse_args(const char *input)
@@ -54,18 +124,28 @@ char **parse_args(const char *input)
         {
             break;
         }
+
         int word_idx = parse_word(input, strlen(input));
         if (word_idx == -1)
         {
             break;
         }
+
         char *arg = (char *)malloc(sizeof(char) * word_idx);
+        if (arg == NULL)
+        {
+            return NULL;
+        }
+
         strlcpy(arg, input, word_idx);
         *copy = arg;
         copy++;
-        if (word_idx > (int) strlen(input)) {
+        if (word_idx > (int)strlen(input))
+        {
             break;
-        } else {
+        }
+        else
+        {
             input += word_idx;
         }
     }
@@ -73,9 +153,11 @@ char **parse_args(const char *input)
     return args;
 }
 
-void free_args(char **args) {
+void free_args(char **args)
+{
     char **copy = args;
-    while (*args != NULL) {
+    while (*args != NULL)
+    {
         free(*args);
         args++;
     }
