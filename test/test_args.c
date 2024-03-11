@@ -2,8 +2,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
+#include <unistd.h>
 
 #include "../src/args.h"
+
+void test_execv(void) {
+    // Executable name without a path
+    const char *path = "/bin/ls";
+
+    // Command-line arguments
+    char *args[] = { "ls", "-l", NULL }; 
+        // Attempt to execute "ls" using execv
+    if (execv(path, args) == -1) {
+        perror("execv");
+    }
+}
 
 void test_cmd_exit(void) {
     const char *cmd_str = "exit";
@@ -77,10 +91,10 @@ void test_parse_args(void) {
 }
 
 int main(void) {
-    // test_strcpy_safe();
     test_parse_word();
     test_parse_args();
     test_cmd_exit();
     test_cmd_cd();
+    // test_execv();
     return 0;
 }

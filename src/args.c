@@ -4,20 +4,32 @@
 
 #include "args.h"
 
-Command cmd(char **args, int n_args) {
-    if (!strcmp(*args, "exit")) {
-        if (n_args == 0) {
+Command cmd(char **args, int n_args)
+{
+    if (!strcmp(*args, "exit"))
+    {
+        if (n_args == 0)
+        {
             return EXIT;
-        } else {
+        }
+        else
+        {
             return CMD_ERROR;
         }
-    } else if (!strcmp(*args, "cd")) {
-        if (n_args == 1) {
+    }
+    else if (!strcmp(*args, "cd"))
+    {
+        if (n_args == 1)
+        {
             return CHANGE_DIR;
-        } else {
+        }
+        else
+        {
             return CMD_ERROR;
         }
-    } else {
+    }
+    else
+    {
         return EXECUTE;
     }
 }
@@ -53,7 +65,35 @@ int parse_word(const char *input, int size)
     return size + 1;
 }
 
-int parse_args2(const char *input, char **dst) {
+char **parse_args3(const char *input, int *out)
+{
+    char *token;
+    char *copy = input;
+    char **args = (char **)malloc(sizeof(char *) * 32);
+    if (args == NULL)
+    {
+        return NULL;
+    }
+
+    for (int i = 0; i < 32; i++)
+    {
+        args[i] = NULL;
+    }
+
+    int count = 0;
+    while ((token = strsep(&copy, " ")) != NULL)
+    {
+        *args = strdup(token);
+        count++;
+    }
+    if (out != NULL) {
+        *out = count;
+    }
+    return args;
+}
+
+int parse_args2(const char *input, char **dst)
+{
     if (dst == NULL)
     {
         return -1;
