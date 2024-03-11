@@ -48,6 +48,8 @@ int main(void)
         {
             printf("Unrecognized command: %s\n", *args);
         }
+
+        free_args(args);
     }
 
     return 0;

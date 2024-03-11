@@ -78,3 +78,12 @@ char **parse_args(char *input)
 
     return args;
 }
+
+void free_args(char **args) {
+    char **copy = args;
+    while (*args != NULL) {
+        free(*args);
+        args++;
+    }
+    free(copy);
+}

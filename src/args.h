@@ -9,5 +9,6 @@
 int parse_word(char *, int);
 void strcpy_safe(char *, char *, size_t);
 char **parse_args(char *);
+void free_args(char **);
 
 #endif

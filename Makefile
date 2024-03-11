@@ -1,5 +1,9 @@
 CC = gcc
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -Wpedantic -Wcast-qual -Wconversion -Wdouble-promotion
+
+# ifeq ($(CC), gcc)
+# 	CFLAGS += -Wduplicated-branches -Wduplicated-cond
+# endif
 
 .PHONY: clean all shell test
 
