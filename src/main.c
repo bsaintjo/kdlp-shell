@@ -3,29 +3,7 @@
 #include <string.h>
 #include "args.h"
 
-#ifdef __unix__
-#include <linux/limits.h>
-#endif
-
-#ifdef __APPLE__
 #define PATH_MAX 4096
-#endif
-
-int run(char *cmd, int size)
-{
-    if (strncmp(cmd, "exit", size) == 0)
-    {
-        return 1;
-    }
-    else if (strncmp(cmd, "hello", size) == 0)
-    {
-        return 2;
-    }
-    else
-    {
-        return -1;
-    }
-}
 
 int main(void)
 {
@@ -42,11 +20,27 @@ int main(void)
             break;
         }
 
-        char **args = parse_args(res);
+        int n_args = -1;
+        char **args = parse_args(res, &n_args);
+        Command to_execute = cmd(args, n_args);
+        fprintf(stderr, "Parsed %d arguments\n", n_args);
 
-        if (strcmp(*args, ""))
+        switch (to_execute)
         {
+        case CHANGE_DIR:
+            fprintf(stderr, "Changing directory\n");
+            chdir(args[1]);
+            break;
+        
+        case EXIT:
+            fprintf(stderr, "Exiting shell\n");
+            free_args(args);
+            return 0;
+            // break;
+        
+        default:
             printf("Unrecognized command: %s\n", *args);
+            break;
         }
 
         free_args(args);

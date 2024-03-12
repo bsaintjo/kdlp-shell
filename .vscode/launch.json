@@ -12,7 +12,22 @@
             "environment": [],
             "externalConsole": false,
             "preLaunchTask": "make test",
-            "MIMode": "lldb"
+            "MIMode": "lldb",
+        },
+        {
+            "name": "(gdb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            // "program": "enter program name, for example ${workspaceFolder}/a.out",
+            "program": "${workspaceFolder}/test/test",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "preLaunchTask": "make test",
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb",
         },
         {
             "name": "C/C++: gcc build and debug active file",
