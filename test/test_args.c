@@ -6,6 +6,12 @@
 #include <unistd.h>
 
 #include "../src/args.h"
+#include "../src/home.h"
+
+void test_home(void) {
+    char *res = expand_tilde("~/");
+    assert(!strcmp(res, "/home/dondon"));
+}
 
 void test_execv(void) {
     // Executable name without a path
@@ -96,5 +102,6 @@ int main(void) {
     // test_cmd_exit2();
     // test_cmd_cd();
     // test_execv();
+    test_home();
     return 0;
 }
