@@ -8,24 +8,30 @@
 #include "../src/args.h"
 #include "../src/home.h"
 
-void test_home(void) {
-    char *res = expand_tilde("~/");
-    assert(!strcmp(res, "/home/dondon"));
+void test_home(void)
+{
+    putenv("HOME=/test/dir");
+    char *res = expand_tilde("~/another/dir");
+    assert(strcmp(res, "/test/dir/another/dir") == 0);
+    free(res);
 }
 
-void test_execv(void) {
+void test_execv(void)
+{
     // Executable name without a path
     const char *path = "/bin/ls";
 
     // Command-line arguments
-    char *args[] = { "ls", "-l", NULL }; 
-        // Attempt to execute "ls" using execv
-    if (execv(path, args) == -1) {
+    char *args[] = {"ls", "-l", NULL};
+    // Attempt to execute "ls" using execv
+    if (execv(path, args) == -1)
+    {
         perror("execv");
     }
 }
 
-void test_cmd_exit(void) {
+void test_cmd_exit(void)
+{
     char *cmd_str = "exit";
     int n_args = -1;
     char **args = parse_args(cmd_str, &n_args);
@@ -34,7 +40,6 @@ void test_cmd_exit(void) {
     assert(res == EXIT);
     free_args(args);
 }
-
 
 // void test_cmd_exit(void) {
 //     const char *cmd_str = "exit";
@@ -78,7 +83,8 @@ void test_cmd_exit(void) {
 //     free_args(args);
 // }
 
-void test_parse_args(void) {
+void test_parse_args(void)
+{
     char *arg_str = "test is a test";
     int n_args = 0;
     char **parsed = parse_args(arg_str, &n_args);
@@ -86,7 +92,8 @@ void test_parse_args(void) {
 
     int count = 0;
     char **copy = parsed;
-    while (*copy != NULL) {
+    while (*copy != NULL)
+    {
         copy++;
         count += 1;
     }
@@ -96,7 +103,8 @@ void test_parse_args(void) {
     free_args(parsed);
 }
 
-int main(void) {
+int main(void)
+{
     test_parse_args();
     test_cmd_exit();
     // test_cmd_exit2();

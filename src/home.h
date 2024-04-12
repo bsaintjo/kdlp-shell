@@ -12,8 +12,9 @@ char *expand_tilde(char *filepath)
     {
         char *home = getenv("HOME");
         char *expanded = (char *)malloc(strlen(home) + strlen(filepath) + 1);
-        strcpy(home, expanded);
-        return home;
+        strcpy(expanded, home);
+        strcat(expanded, filepath+1);
+        return expanded;
     }
     else
     {
